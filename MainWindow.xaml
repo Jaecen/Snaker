@@ -1,0 +1,123 @@
+﻿<cg:GameWindow x:Class="Snaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cg="clr-namespace:CrappyGame;assembly=CrappyGame" 
+        xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+        Title="Snaker" Height="350" Width="525" WindowState="Maximized" Loaded="Window_Loaded"
+        DataContext="{Binding RelativeSource={RelativeSource self}, Path=.}">
+
+    <Window.Resources>
+        <BitmapImage x:Key="Girl" UriSource="media/girl.png" />
+        <BitmapImage x:Key="Snake" UriSource="media/snake.png" />
+        <BitmapImage x:Key="GoldenP" UriSource="media/golden p.png" />
+
+        <PathGeometry x:Key="CupAnimationPath"
+            PresentationOptions:Freeze="True"
+            >
+            <PathFigureCollection>
+                <PathFigure>
+                    <ArcSegment IsLargeArc="True" SweepDirection="Counterclockwise" RotationAngle="180" >
+                    </ArcSegment>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry>
+
+        <Storyboard x:Key="WalkStoryboard">
+            <DoubleAnimation 
+                Name="walkRotateAnimation"
+                Storyboard.TargetName="girlRotate"
+                Storyboard.TargetProperty="Angle"
+                From="10" To="-10" Duration="0:0:0.75" 
+                AutoReverse="True" RepeatBehavior="Forever">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="JumpStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="girlTranslate"
+                Storyboard.TargetProperty="Y"
+                From="0" To="-200" 
+                Duration="0:0:0.5" AutoReverse="True">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation 
+                Storyboard.TargetName="girlRotate"
+                Storyboard.TargetProperty="Angle"
+                To="10" Duration="0:0:0.25" />
+        </Storyboard>
+
+        <Storyboard x:Key="EndGameStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="girlRotate"
+                Storyboard.TargetProperty="Angle"
+                From="359" To="0" Duration="0:0:1"
+                RepeatBehavior="10">
+            </DoubleAnimation>
+            <DoubleAnimation
+                Storyboard.TargetName="girlTranslate"
+                Storyboard.TargetProperty="Y"
+                To="800" Duration="0:0:3">
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="LevelCompleteSotryboard" Duration="0:0:2">
+            <DoubleAnimation
+                Storyboard.TargetName="cupTranslate"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:2"
+                FillBehavior="Stop"
+                />
+
+            <DoubleAnimation
+                Storyboard.TargetName="cupTranslate"
+                Storyboard.TargetProperty="Y"
+                To="-300"
+                Duration="0:0:1"
+                AutoReverse="True">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation
+                Storyboard.TargetName="cupRotate"
+                Storyboard.TargetProperty="Angle"
+                From="0" To="1440"
+                Duration="0:0:2"
+                >
+            </DoubleAnimation>
+            
+        </Storyboard>
+    </Window.Resources>
+
+    <Canvas Name="Container">
+        
+        <TextBlock FontSize="32" Canvas.Left="20" Canvas.Top="20" Text="{Binding Path=LevelDisplay}" />
+        
+        <Image Name="GirlImage" Source="{ StaticResource ResourceKey=Girl }" Height="200" Canvas.Bottom="100" Canvas.Left="200">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform x:Name="girlRotate" Angle="0" CenterX="65" CenterY="151" />
+                    <TranslateTransform x:Name="girlTranslate"  />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+        <Image Name="GoldenPImage" Source="{ StaticResource ResourceKey=GoldenP }" Height="100" Canvas.Right="20" Canvas.Bottom="200">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform x:Name="cupRotate" Angle="0" CenterX="19" CenterY="50" />
+                    <TranslateTransform x:Name="cupTranslate"  />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+        <Line Name="GroundLine" Stroke="Black" StrokeThickness="3" Canvas.Bottom="100" X1="0" Y1="0" Y2="0" />
+
+    </Canvas>
+</cg:GameWindow >
