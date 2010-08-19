@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Snaker.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -92,7 +95,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Snaker.ico" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrappyGame\CrappyGame.csproj">
       <Project>{21C1214A-48EF-440A-BCF8-B4D081E19343}</Project>
